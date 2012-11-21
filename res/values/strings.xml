@@ -6,4 +6,6 @@
     <string name="login_btn_value">login</string>
     <string name="login_username_password_null">please enter username and password</string>
     <string name="login_failed">login failed,please retry</string>
+    
+    <string name="vpn_active_state">vpn active state img</string>
 </resources>

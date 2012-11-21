@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import xink.vpn.Utils;
@@ -37,6 +38,7 @@ public class VpnListActivity extends BaseActivity {
     private VpnActor actor;
     private RepositoryHelper reposityoryHelper;
     private BroadcastReceiver stateBroadcastReceiver;
+    private ListView mVpnList;
 
     private SimpleAdapter vpnListAdapter;
 
@@ -57,6 +59,8 @@ public class VpnListActivity extends BaseActivity {
         // 加入list
         reposityoryHelper = new RepositoryHelper(getApplicationContext());
         reposityoryHelper.populatePptpRepository(username, password, vpnNames, vpnIps);
+
+        mVpnList = (ListView) findViewById(R.id.vpn_list);
 
         save();
 
@@ -131,5 +135,17 @@ public class VpnListActivity extends BaseActivity {
 
     private void save() {
         repository.save();
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceivers();
+        super.onDestroy();
+    }
+
+    private void unregisterReceivers() {
+        if (stateBroadcastReceiver != null) {
+            unregisterReceiver(stateBroadcastReceiver);
+        }
     }
 }

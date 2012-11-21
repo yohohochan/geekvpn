@@ -23,9 +23,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import yeungeek.tk.R;
-import yeungeek.tk.R.id;
-import yeungeek.tk.R.layout;
-import yeungeek.tk.R.string;
 
 /**
  * @ClassName: LoginActivity
@@ -52,6 +49,9 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 mUsername = getEditorText(R.id.login_username);
                 mPassword = getEditorText(R.id.login_password);
+
+                mUsername = "valesail";
+                mPassword = "huanglei";
 
                 if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
                     showToast(R.string.login_username_password_null);

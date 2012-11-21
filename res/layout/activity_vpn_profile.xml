@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="true"
+    android:orientation="horizontal"
+    android:paddingBottom="1dip"
+    android:paddingLeft="10dip"
+    android:paddingRight="10dip"
+    android:paddingTop="8dip" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/vpn_active_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:contentDescription="@string/vpn_active_state"
+            android:src="@drawable/logo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" 
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/vpn_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美国" />
+
+        <TextView
+            android:id="@+id/vpn_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正常" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/vpn_connect_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="正在连接..." />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ToggleButton
+            android:id="@+id/vpn_tgbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:text="ToggleButton" >
+        </ToggleButton>
+    </LinearLayout>
+
+</LinearLayout>
