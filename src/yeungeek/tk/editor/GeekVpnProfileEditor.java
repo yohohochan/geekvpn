@@ -1,5 +1,5 @@
 
-package yeungeek.tk.edit;
+package yeungeek.tk.editor;
 
 import android.content.Context;
 

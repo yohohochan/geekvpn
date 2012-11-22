@@ -5,7 +5,7 @@ import android.content.Context;
 
 import xink.vpn.VpnProfileRepository;
 import xink.vpn.wrapper.VpnProfile;
-import yeungeek.tk.edit.GeekPptpVpnProfileEditor;
+import yeungeek.tk.editor.GeekPptpVpnProfileEditor;
 
 import java.util.List;
 
