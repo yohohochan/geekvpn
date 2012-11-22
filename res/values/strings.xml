@@ -8,4 +8,7 @@
     <string name="login_failed">login failed,please retry</string>
     
     <string name="vpn_active_state">vpn active state img</string>
+    <string name="vpn_type">choice vpn type</string>
+    
+    <string name="vpn_list">VPN LIST</string>
 </resources>

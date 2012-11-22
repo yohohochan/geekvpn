@@ -5,6 +5,8 @@ import android.content.Context;
 
 import xink.vpn.VpnProfileRepository;
 import xink.vpn.wrapper.VpnProfile;
+import xink.vpn.wrapper.VpnType;
+import yeungeek.tk.editor.GeekL2tpProfileEditor;
 import yeungeek.tk.editor.GeekPptpVpnProfileEditor;
 
 import java.util.List;
@@ -27,14 +29,20 @@ public class RepositoryHelper {
             final String[] vpnNames,
             final String[] vpnips) {
         GeekPptpVpnProfileEditor pptp = null;
+        GeekL2tpProfileEditor l2tp = null;
         for (int i = 0; i < vpnNames.length; i++) {
             pptp = new GeekPptpVpnProfileEditor(context);
             pptp.setName(vpnNames[i]);
             pptp.setServerName(vpnips[i]);
             pptp.setUsername(username);
             pptp.setPassword(password);
-            if (!containsRepository(pptp.getName())) {
+            if (!containsRepository(pptp.getName(), VpnType.PPTP.getName())) {
                 pptp.onSave();
+            }
+            l2tp = new GeekL2tpProfileEditor(context, vpnNames[i], vpnips[i], username, password);
+
+            if (!containsRepository(pptp.getName(), VpnType.L2TP.getName())) {
+                l2tp.onSave();
             }
         }
     }
@@ -50,13 +58,13 @@ public class RepositoryHelper {
         }
     }
 
-    public boolean containsRepository(final String name) {
+    public boolean containsRepository(final String name, final String vpnType) {
         List<VpnProfile> profileList = repository.getAllVpnProfiles();
         if (!profileList.isEmpty()) {
             VpnProfile[] ps = profileList.toArray(new VpnProfile[0]);
             for (VpnProfile p : ps) {
-                // p.getType().getName().equals(VpnType.PPTP.getName())
-                if (p.getName().equals(name))
+                final boolean typeEqual = p.getType().getName().equals(vpnType);
+                if (p.getName().equals(name) && typeEqual)
                     return true;
             }
         }

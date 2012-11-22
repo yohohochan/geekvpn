@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
             android:contentDescription="@string/vpn_active_state"
-            android:src="@drawable/logo" />
+            android:src="@drawable/vpn_state" />
     </LinearLayout>
 
     <LinearLayout
@@ -31,22 +31,20 @@
         <TextView
             android:id="@+id/vpn_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="美国" />
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/vpn_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="正常" />
+            android:text="@string/vpn_state_normal" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/vpn_connect_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="正在连接..." />
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,8 +54,7 @@
             android:id="@+id/vpn_tgbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:text="ToggleButton" >
+            android:layout_gravity="right|center_vertical">
         </ToggleButton>
     </LinearLayout>
 

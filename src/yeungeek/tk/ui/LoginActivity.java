@@ -1,7 +1,9 @@
 
 package yeungeek.tk.ui;
 
+import static yeungeek.tk.util.Constants.IS_LOGINED;
 import static yeungeek.tk.util.Constants.PASSWORD;
+import static yeungeek.tk.util.Constants.SEED;
 import static yeungeek.tk.util.Constants.USERNAME;
 import static yeungeek.tk.util.Constants.VPNURL;
 
@@ -23,6 +25,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import yeungeek.tk.R;
+import yeungeek.tk.util.Crypto;
+import yeungeek.tk.util.PreferencesTools;
 
 /**
  * @ClassName: LoginActivity
@@ -43,6 +47,11 @@ public class LoginActivity extends BaseActivity {
 
         setContentView(R.layout.activity_login);
 
+        String isLogined = PreferencesTools.getDate(IS_LOGINED, "false");
+        if (isLogined.equals("true")) {
+            startToVpn();
+        }
+
         mLoginBtn = (Button) findViewById(R.id.longin_btn);
         mLoginBtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -57,7 +66,7 @@ public class LoginActivity extends BaseActivity {
                     showToast(R.string.login_username_password_null);
                 } else {
                     new LoginTask().execute(VPNURL.concat("?userid=").concat(mUsername)
-                            .concat("&pwd=").concat(mPassword));
+                                .concat("&pwd=").concat(mPassword));
                 }
             }
         });
@@ -101,11 +110,17 @@ public class LoginActivity extends BaseActivity {
                 String[] rs = result.split(",");
                 int code = Integer.parseInt(rs[0]);
                 if (200 == code) {
-                    Intent intent = new Intent(LoginActivity.this, VpnListActivity.class);
-                    intent.putExtra(USERNAME, mUsername);
-                    intent.putExtra(PASSWORD, mPassword);
-                    startActivity(intent);
-                    finish();
+                    PreferencesTools.saveData(USERNAME, mUsername);
+                    try {
+                        PreferencesTools.saveData(PASSWORD, Crypto.encrypt(SEED, mPassword));
+                    } catch (Exception e) {
+                        Log.e(TAG, "save password error" + e);
+                        e.printStackTrace();
+                    }
+                    PreferencesTools.saveData(IS_LOGINED, "true");
+
+                    startToVpn();
+
                 } else {
                     showToast(R.string.login_failed);
                 }
@@ -113,5 +128,11 @@ public class LoginActivity extends BaseActivity {
                 showToast(R.string.login_failed);
             }
         }
+    }
+
+    public void startToVpn() {
+        Intent intent = new Intent(LoginActivity.this, VpnListActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

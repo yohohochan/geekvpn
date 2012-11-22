@@ -8,9 +8,12 @@ package yeungeek.tk.util;
  * @date 2012-11-21 下午05:19:13
  */
 public interface Constants {
-    public static String VPNURL = "http://fengchinet.com/celogin.php";
-    public static String USERNAME = "username";
-    public static String PASSWORD = "password";
+    public final static String VPNURL = "http://fengchinet.com/celogin.php";
+    public final static String USERNAME = "username";
+    public final static String PASSWORD = "password";
+    public final static String SEED = "geekvpn";
+
+    public final static String IS_LOGINED = "is_logined";
 
     // Action for broadcasting a connectivity state.
     public static final String ACTION_VPN_CONNECTIVITY = "vpn.connectivity";
@@ -23,4 +26,9 @@ public interface Constants {
 
     /** Error code to indicate a successful connection. */
     public static final int VPN_ERROR_NO_ERROR = 0;
+
+    public static final int VPN_QUIT = 100;
+
+    /** L2TP连接密钥 **/
+    public static final String L2TP_SECRET = "fengchinet.com";
 }

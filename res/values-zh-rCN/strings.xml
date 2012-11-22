@@ -1,0 +1,15 @@
+<resources>
+    <string name="vpn_type">选择模型</string>
+    <string name="vpn_state_normal">正常</string>
+    <string name="vpn_connecting">正在连接&#8230;</string>
+    <string name="vpn_disconnecting">连接断开</string>
+    <string name="vpn_list_hide">隐藏</string>
+    <string name="vpn_list_quit">退出</string>
+    
+    <string name="tip">提示</string>
+    
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    
+    <string name="quit_info">确定要退出?</string>
+</resources>
