@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import xink.vpn.Utils;
 import xink.vpn.VpnActor;
@@ -59,6 +61,9 @@ public class VpnListActivity extends BaseActivity {
     private VpnListAdapter mVpnListAdapter;
 
     private Button mQuitBtn;
+    private RadioGroup mVpnype;
+    private RadioButton mPptp;
+    private RadioButton mL2tp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,9 @@ public class VpnListActivity extends BaseActivity {
                 showDialog(VPN_QUIT);
             }
         });
+
+        mVpnype = (RadioGroup) findViewById(R.id.vpn_type);
+        mPptp = (RadioButton) findViewById(R.id.vpn_type_pptp);
 
         save();
 

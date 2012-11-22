@@ -38,8 +38,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vpn_type" />
-        
-        
+
+        <RadioGroup
+            android:id="@+id/vpn_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/vpn_type_pptp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_type_pptp" 
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/vpn_type_l2tp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vpn_type_pptp" />
+        </RadioGroup>
     </LinearLayout>
 
     <ListView

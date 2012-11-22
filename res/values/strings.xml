@@ -11,4 +11,7 @@
     <string name="vpn_type">choice vpn type</string>
     
     <string name="vpn_list">VPN LIST</string>
+    
+    <string name="vpn_type_pptp">PPTP</string>
+    <string name="vpn_type_l2tp">L2TP</string>
 </resources>
