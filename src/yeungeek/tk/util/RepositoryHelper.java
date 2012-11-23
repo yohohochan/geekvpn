@@ -39,7 +39,7 @@ public class RepositoryHelper {
             if (!containsRepository(pptp.getName(), VpnType.PPTP.getName())) {
                 pptp.onSave();
             }
-            l2tp = new GeekL2tpIpsecPskProfileEditor(context, vpnNames[i] + "1", vpnips[i],
+            l2tp = new GeekL2tpIpsecPskProfileEditor(context, vpnNames[i] + "(密)", vpnips[i],
                     username,
                     password);
 

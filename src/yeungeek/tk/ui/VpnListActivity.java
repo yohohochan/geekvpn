@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,6 +23,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xink.vpn.Utils;
 import xink.vpn.VpnActor;
@@ -47,7 +49,7 @@ import java.util.List;
  * @date 2012-11-21 下午05:21:45
  */
 public class VpnListActivity extends BaseActivity {
-    private final static String TAG = VpnListActivity.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(VpnListActivity.class);
 
     private VpnProfileRepository repository;
     private VpnActor actor;
@@ -164,7 +166,7 @@ public class VpnListActivity extends BaseActivity {
                 if (ACTION_VPN_CONNECTIVITY.equals(action)) {
                     onStateChanged(intent);
                 } else {
-                    Log.d(TAG, "VPNSettings receiver ignores intent:" + intent); //$NON-NLS-1$
+                    logger.debug("VPNSettings receiver ignores intent:{}", intent); //$NON-NLS-1$
                 }
             }
         };
@@ -194,7 +196,7 @@ public class VpnListActivity extends BaseActivity {
         VpnProfile p = repository.getProfileByName(profileName);
 
         if (p == null) {
-            Log.w(TAG, profileName + " NOT found"); //$NON-NLS-1$
+            logger.warn("{} NOT found", profileName); //$NON-NLS-1$
             return;
         }
 

@@ -34,7 +34,7 @@ public abstract class GeekVpnProfileEditor {
     private void populateProfile() {
         profile.setState(VpnState.IDLE);
         doPopulateProfile();
-        // repository.checkProfile(profile);
+        repository.checkProfile(profile);
     }
 
     private void saveProfile() {

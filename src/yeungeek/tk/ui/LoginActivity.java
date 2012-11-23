@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +22,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import xink.vpn.VpnProfileRepository;
 import yeungeek.tk.R;
@@ -37,7 +38,7 @@ import yeungeek.tk.util.RepositoryHelper;
  * @date 2012-11-21 下午04:43:30
  */
 public class LoginActivity extends BaseActivity {
-    private final static String TAG = LoginActivity.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 
     private Button mLoginBtn;
     private String mUsername;
@@ -90,17 +91,17 @@ public class LoginActivity extends BaseActivity {
     class LoginTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(final String... params) {
-            Log.d(TAG, "login request: " + params[0]);
+            logger.debug("login request: {}", params[0]);
             HttpGet hg = new HttpGet(params[0]);
             try {
                 HttpResponse hr = new DefaultHttpClient().execute(hg);
                 if (hr.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                     String result = EntityUtils.toString(hr.getEntity());
-                    Log.d(TAG, "result:" + result);
+                    logger.debug("result: {}", result);
                     return result;
                 }
             } catch (Exception e) {
-                Log.d(TAG, "login request error " + e);
+                logger.error("login request error {}", e);
                 e.printStackTrace();
             }
             return null;
@@ -108,7 +109,7 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(final String result) {
-            Log.d(TAG, "recevie result:" + result);
+            logger.debug("recevie result: {}", result);
             if (!TextUtils.isEmpty(result)) {
                 String[] rs = result.split(",");
                 int code = Integer.parseInt(rs[0]);
@@ -117,7 +118,7 @@ public class LoginActivity extends BaseActivity {
                     try {
                         PreferencesTools.saveData(PASSWORD, Crypto.encrypt(SEED, mPassword));
                     } catch (Exception e) {
-                        Log.e(TAG, "save password error" + e);
+                        logger.error("save password error {}", e);
                         e.printStackTrace();
                     }
                     PreferencesTools.saveData(IS_LOGINED, "true");
