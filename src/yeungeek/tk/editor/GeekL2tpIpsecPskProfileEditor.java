@@ -51,8 +51,8 @@ public class GeekL2tpIpsecPskProfileEditor extends GeekVpnProfileEditor {
 
         profile.setPresharedKey(L2TP_SECRET);
 
-        profile.setSecretEnabled(false);
-        profile.setSecretString("");
+        // profile.setSecretEnabled(false);
+        // profile.setSecretString("");
     }
 
     /**
