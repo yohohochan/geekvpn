@@ -5,7 +5,7 @@ import static yeungeek.tk.util.Constants.L2TP_SECRET;
 
 import android.content.Context;
 
-import xink.vpn.wrapper.L2tpProfile;
+import xink.vpn.wrapper.L2tpIpsecPskProfile;
 import xink.vpn.wrapper.VpnProfile;
 
 /**
@@ -14,22 +14,22 @@ import xink.vpn.wrapper.VpnProfile;
  * @author Anson.Yang
  * @date 2012-11-22 下午07:49:43
  */
-public class GeekL2tpProfileEditor extends GeekVpnProfileEditor {
+public class GeekL2tpIpsecPskProfileEditor extends GeekVpnProfileEditor {
     private String name;
     private String serverName;
     private String username;
     private String password;
 
-    public GeekL2tpProfileEditor(Context mContext) {
+    public GeekL2tpIpsecPskProfileEditor(Context mContext) {
         super(mContext);
     }
 
     @Override
     protected VpnProfile createProfile() {
-        return new L2tpProfile(mContext);
+        return new L2tpIpsecPskProfile(mContext);
     }
 
-    public GeekL2tpProfileEditor(final Context mContext, final String name,
+    public GeekL2tpIpsecPskProfileEditor(final Context mContext, final String name,
             final String serverName,
             final String username, final String password) {
         super(mContext);
@@ -41,14 +41,18 @@ public class GeekL2tpProfileEditor extends GeekVpnProfileEditor {
 
     @Override
     protected void doPopulateProfile() {
-        L2tpProfile profile = getProfile();
+        L2tpIpsecPskProfile profile = getProfile();
         profile.setName(name);
         profile.setServerName(serverName);
         // 可以不设置
         profile.setDomainSuffices("8.8.8.8");
         profile.setUsername(username);
         profile.setPassword(password);
-        profile.setSecretString(L2TP_SECRET);
+
+        profile.setPresharedKey(L2TP_SECRET);
+
+        profile.setSecretEnabled(false);
+        profile.setSecretString("");
     }
 
     /**

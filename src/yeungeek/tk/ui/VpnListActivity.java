@@ -4,9 +4,6 @@ package yeungeek.tk.ui;
 import static yeungeek.tk.util.Constants.ACTION_VPN_CONNECTIVITY;
 import static yeungeek.tk.util.Constants.BROADCAST_ERROR_CODE;
 import static yeungeek.tk.util.Constants.BROADCAST_PROFILE_NAME;
-import static yeungeek.tk.util.Constants.PASSWORD;
-import static yeungeek.tk.util.Constants.SEED;
-import static yeungeek.tk.util.Constants.USERNAME;
 import static yeungeek.tk.util.Constants.VPN_ERROR_NO_ERROR;
 import static yeungeek.tk.util.Constants.VPN_QUIT;
 
@@ -26,16 +23,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import xink.vpn.Utils;
 import xink.vpn.VpnActor;
 import xink.vpn.VpnProfileRepository;
 import xink.vpn.wrapper.VpnProfile;
 import xink.vpn.wrapper.VpnState;
+import xink.vpn.wrapper.VpnType;
 import yeungeek.tk.R;
 import yeungeek.tk.ui.adapter.VpnListAdapter;
 import yeungeek.tk.ui.adapter.VpnViewItem;
-import yeungeek.tk.util.Crypto;
 import yeungeek.tk.util.PreferencesTools;
 import yeungeek.tk.util.RepositoryHelper;
 
@@ -53,7 +51,6 @@ public class VpnListActivity extends BaseActivity {
 
     private VpnProfileRepository repository;
     private VpnActor actor;
-    private RepositoryHelper reposityoryHelper;
     private BroadcastReceiver stateBroadcastReceiver;
     private ListView mVpnList;
 
@@ -61,6 +58,8 @@ public class VpnListActivity extends BaseActivity {
     private VpnListAdapter mVpnListAdapter;
 
     private Button mQuitBtn;
+    private Button mHideBtn;
+
     private RadioGroup mVpnype;
     private RadioButton mPptp;
     private RadioButton mL2tp;
@@ -70,26 +69,8 @@ public class VpnListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vpn_list);
 
-        final String username = PreferencesTools.getDate(USERNAME, "");
-        String password = "";
-        try {
-            password = Crypto.decrypt(SEED, PreferencesTools.getDate(PASSWORD, ""));
-        } catch (Exception e) {
-            Log.e(TAG, "get password error");
-            e.printStackTrace();
-        }
-
         repository = VpnProfileRepository.getInstance(getApplicationContext());
         actor = new VpnActor(getApplicationContext());
-
-        final String[] vpnNames = getResources().getStringArray(
-                R.array.vpn_names);
-        final String[] vpnIps = getResources().getStringArray(R.array.vpn_ips);
-
-        // 加入list
-        reposityoryHelper = new RepositoryHelper(getApplicationContext());
-        reposityoryHelper.populatePptpRepository(username, password, vpnNames,
-                vpnIps);
 
         mVpnItems = new ArrayList<VpnViewItem>();
         mVpnList = (ListView) findViewById(R.id.vpn_list);
@@ -102,32 +83,54 @@ public class VpnListActivity extends BaseActivity {
             }
         });
 
+        mHideBtn = (Button) findViewById(R.id.vpn_list_hide);
+        mHideBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideActivity();
+            }
+        });
+
         mVpnype = (RadioGroup) findViewById(R.id.vpn_type);
         mPptp = (RadioButton) findViewById(R.id.vpn_type_pptp);
+        mL2tp = (RadioButton) findViewById(R.id.vpn_type_l2tp);
+        mVpnype.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == mPptp.getId()) {
+                    actor.disconnect();
+                    buildVpnListView(VpnType.PPTP.getName());
+                } else if (checkedId == mL2tp.getId()) {
+                    actor.disconnect();
+                    buildVpnListView(VpnType.L2TP_IPSEC_PSK.getName());
+                }
+            }
+        });
 
-        save();
-
-        buildVpnListView();
+        // 默认加载pptp
+        buildVpnListView(VpnType.PPTP.getName());
 
         registerReceivers();
 
         checkAllVpnStatus();
     }
 
-    private void buildVpnListView() {
-        loadContent();
+    private void buildVpnListView(String vpnType) {
+        loadContent(vpnType);
         mVpnListAdapter = new VpnListAdapter(this, actor);
         mVpnListAdapter.setItems(mVpnItems);
         mVpnList.setAdapter(mVpnListAdapter);
     }
 
-    private void loadContent() {
+    private void loadContent(String vpnType) {
         mVpnItems.clear();
         String activeProfileId = repository.getActiveProfileId();
         List<VpnProfile> allVpnProfiles = repository.getAllVpnProfiles();
 
         for (VpnProfile vpnProfile : allVpnProfiles) {
-            addToVpnListView(activeProfileId, vpnProfile);
+            if (vpnProfile.getType().getName().equals(vpnType)) {
+                addToVpnListView(activeProfileId, vpnProfile);
+            }
         }
     }
 
@@ -217,10 +220,6 @@ public class VpnListActivity extends BaseActivity {
         }, "vpn-state-checker").start(); //$NON-NLS-1$
     }
 
-    private void save() {
-        repository.save();
-    }
-
     @Override
     protected void onDestroy() {
         unregisterReceivers();
@@ -249,6 +248,7 @@ public class VpnListActivity extends BaseActivity {
                                 dialog.dismiss();
                                 actor.disconnect();
                                 PreferencesTools.clear();
+                                new RepositoryHelper(getApplicationContext()).clearRepository();
                                 finish();
                             }
                         }).setNegativeButton(R.string.cancel, new Dialog.OnClickListener() {
@@ -262,5 +262,17 @@ public class VpnListActivity extends BaseActivity {
         dialog = dialogBuilder.create();
         dialog.setCancelable(true);
         return dialog;
+    }
+
+    @Override
+    public void onBackPressed() {
+        hideActivity();
+    }
+
+    private void hideActivity() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
     }
 }

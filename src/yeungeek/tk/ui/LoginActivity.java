@@ -24,9 +24,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import xink.vpn.VpnProfileRepository;
 import yeungeek.tk.R;
 import yeungeek.tk.util.Crypto;
 import yeungeek.tk.util.PreferencesTools;
+import yeungeek.tk.util.RepositoryHelper;
 
 /**
  * @ClassName: LoginActivity
@@ -41,11 +43,15 @@ public class LoginActivity extends BaseActivity {
     private String mUsername;
     private String mPassword;
 
+    private VpnProfileRepository repository;
+    private RepositoryHelper reposityoryHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
+
+        repository = VpnProfileRepository.getInstance(getApplicationContext());
 
         String isLogined = PreferencesTools.getDate(IS_LOGINED, "false");
         if (isLogined.equals("true")) {
@@ -58,9 +64,6 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 mUsername = getEditorText(R.id.login_username);
                 mPassword = getEditorText(R.id.login_password);
-
-                mUsername = "valesail";
-                mPassword = "huanglei";
 
                 if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
                     showToast(R.string.login_username_password_null);
@@ -119,8 +122,9 @@ public class LoginActivity extends BaseActivity {
                     }
                     PreferencesTools.saveData(IS_LOGINED, "true");
 
-                    startToVpn();
+                    initVpn();
 
+                    startToVpn();
                 } else {
                     showToast(R.string.login_failed);
                 }
@@ -132,7 +136,24 @@ public class LoginActivity extends BaseActivity {
 
     public void startToVpn() {
         Intent intent = new Intent(LoginActivity.this, VpnListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void initVpn() {
+        final String[] vpnNames = getResources().getStringArray(
+                R.array.vpn_names);
+        final String[] vpnIps = getResources().getStringArray(R.array.vpn_ips);
+        // 加入list
+        reposityoryHelper = new RepositoryHelper(getApplicationContext());
+        reposityoryHelper.populatePptpRepository(mUsername, mPassword, vpnNames,
+                vpnIps);
+
+        save();
+    }
+
+    private void save() {
+        repository.save();
     }
 }
