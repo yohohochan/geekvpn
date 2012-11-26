@@ -11,6 +11,7 @@ public interface Constants {
     public final static String VPNURL = "http://fengchinet.com/celogin.php";
     public final static String USERNAME = "username";
     public final static String PASSWORD = "password";
+    public final static String EXPIRE = "expire";
     public final static String SEED = "geekvpn";
 
     public final static String IS_LOGINED = "is_logined";

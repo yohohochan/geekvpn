@@ -25,6 +25,7 @@
             style="@style/login_input_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_input_first"
             android:hint="@string/vpn_text_hit_email"
             android:inputType="text"
             android:singleLine="true" />
@@ -34,6 +35,7 @@
             style="@style/login_input_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/login_input_last"
             android:hint="@string/vpn_text_hit_password"
             android:inputType="textPassword"
             android:singleLine="true" />

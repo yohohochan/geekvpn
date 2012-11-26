@@ -11,7 +11,8 @@
     </style>
 
     <style name="login_input_text">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@color/text_input</item>
         <item name="android:paddingLeft">10dip</item>
     </style>
@@ -24,5 +25,10 @@
     <style name="text_list_sub">
         <item name="android:textColor">@color/text_list_sub</item>
         <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="text_username">
+        <item name="android:textColor">@color/text_username</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

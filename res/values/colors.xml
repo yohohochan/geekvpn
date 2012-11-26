@@ -6,4 +6,6 @@
     
     <color name="text_list">#A7CD05</color>
     <color name="text_list_sub">#B6B6B6</color>
+    
+    <color name="text_username">#CECECE</color>
 </resources>

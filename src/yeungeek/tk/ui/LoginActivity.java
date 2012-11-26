@@ -1,6 +1,7 @@
 
 package yeungeek.tk.ui;
 
+import static yeungeek.tk.util.Constants.EXPIRE;
 import static yeungeek.tk.util.Constants.IS_LOGINED;
 import static yeungeek.tk.util.Constants.PASSWORD;
 import static yeungeek.tk.util.Constants.SEED;
@@ -113,8 +114,10 @@ public class LoginActivity extends BaseActivity {
             if (!TextUtils.isEmpty(result)) {
                 String[] rs = result.split(",");
                 int code = Integer.parseInt(rs[0]);
+                String expire = rs[1];
                 if (200 == code) {
                     PreferencesTools.saveData(USERNAME, mUsername);
+                    PreferencesTools.saveData(EXPIRE, expire);
                     try {
                         PreferencesTools.saveData(PASSWORD, Crypto.encrypt(SEED, mPassword));
                     } catch (Exception e) {

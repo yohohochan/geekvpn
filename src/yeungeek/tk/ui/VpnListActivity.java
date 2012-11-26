@@ -4,6 +4,8 @@ package yeungeek.tk.ui;
 import static yeungeek.tk.util.Constants.ACTION_VPN_CONNECTIVITY;
 import static yeungeek.tk.util.Constants.BROADCAST_ERROR_CODE;
 import static yeungeek.tk.util.Constants.BROADCAST_PROFILE_NAME;
+import static yeungeek.tk.util.Constants.EXPIRE;
+import static yeungeek.tk.util.Constants.USERNAME;
 import static yeungeek.tk.util.Constants.VPN_ERROR_NO_ERROR;
 import static yeungeek.tk.util.Constants.VPN_QUIT;
 
@@ -20,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +65,9 @@ public class VpnListActivity extends BaseActivity {
     // private RadioGroup mVpnype;
     // private RadioButton mPptp;
     // private RadioButton mL2tp;
+
+    private TextView mUsername;
+    private TextView mExpire;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +112,13 @@ public class VpnListActivity extends BaseActivity {
         // }
         // });
 
+        mUsername = (TextView) findViewById(R.id.vpn_username);
+        mExpire = (TextView) findViewById(R.id.vpn_expire_time);
+
+        mUsername.setText(getString(R.string.vpn_username).concat(
+                PreferencesTools.getDate(USERNAME, "")));
+        mExpire.setText(getString(R.string.vpn_expire).concat(PreferencesTools.getDate(EXPIRE, ""))
+                .concat(getString(R.string.vpn_expire_unit)));
         // 默认加载pptp
         buildVpnListView(VpnType.PPTP.getName());
 
