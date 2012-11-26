@@ -12,4 +12,7 @@
     <string name="cancel">取消</string>
     
     <string name="quit_info">确定要退出?</string>
+    
+    <string name="vpn_text_hit_email">邮箱</string>
+    <string name="vpn_text_hit_password">密码</string>
 </resources>

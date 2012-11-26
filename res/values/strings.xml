@@ -1,7 +1,6 @@
 <resources>
 
-    <string name="app_name">geekvpn</string>
-    <string name="title_activity_main">Login</string>
+    <string name="app_name">风驰网络加速器</string>
     
     <string name="login_btn_value">login</string>
     <string name="login_username_password_null">please enter username and password</string>
@@ -14,4 +13,7 @@
     
     <string name="vpn_type_pptp">PPTP</string>
     <string name="vpn_type_l2tp">L2TP</string>
+    
+    <string name="vpn_text_hit_email">Email</string>
+    <string name="vpn_text_hit_password">Password</string>
 </resources>

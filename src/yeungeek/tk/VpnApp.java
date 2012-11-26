@@ -22,7 +22,7 @@ public class VpnApp extends Application {
 
     public static VpnApp getInstance() {
         if (instance == null) {
-            Assert.assertTrue("获取到的application 为空", instance != null);
+            Assert.assertTrue("application is null", instance != null);
         }
         return instance;
     }

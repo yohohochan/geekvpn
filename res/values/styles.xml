@@ -1,13 +1,28 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="@android:style/Theme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-     <style name="VpnTypeDescStyle">
+    <style name="VpnTypeDescStyle">
         <item name="android:textColor">#AAAAAA</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="login_input_text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColorHint">@color/text_input</item>
+        <item name="android:paddingLeft">10dip</item>
+    </style>
+
+    <style name="text_list">
+        <item name="android:textColor">@color/text_list</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     
+    <style name="text_list_sub">
+        <item name="android:textColor">@color/text_list_sub</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

@@ -4,20 +4,21 @@
     android:layout_height="fill_parent"
     android:baselineAligned="true"
     android:orientation="horizontal"
-    android:paddingBottom="1dip"
+    android:paddingBottom="5dip"
     android:paddingLeft="10dip"
     android:paddingRight="10dip"
-    android:paddingTop="8dip" >
+    android:paddingTop="5dip"
+    android:background="@drawable/list_bg">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:layout_gravity="left|center_vertical">
 
         <ImageView
             android:id="@+id/vpn_active_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
             android:contentDescription="@string/vpn_active_state"
             android:src="@drawable/vpn_state" />
     </LinearLayout>
@@ -25,15 +26,18 @@
     <LinearLayout
         android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:orientation="vertical" 
+        android:orientation="vertical"
+        android:layout_marginLeft="5dip"
         android:layout_weight="1">
 
         <TextView
+            style="@style/text_list"
             android:id="@+id/vpn_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
+            style="@style/text_list_sub"
             android:id="@+id/vpn_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,6 +45,7 @@
     </LinearLayout>
 
     <TextView
+        style="@style/text_list_sub"
         android:id="@+id/vpn_connect_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,7 +59,10 @@
             android:id="@+id/vpn_tgbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical">
+            android:layout_gravity="right|center_vertical"
+            android:background="@drawable/tb_btn"
+            android:textOff=""
+            android:textOn="">
         </ToggleButton>
     </LinearLayout>
 

@@ -6,7 +6,6 @@ import android.content.Context;
 import xink.vpn.VpnProfileRepository;
 import xink.vpn.wrapper.VpnProfile;
 import xink.vpn.wrapper.VpnType;
-import yeungeek.tk.editor.GeekL2tpIpsecPskProfileEditor;
 import yeungeek.tk.editor.GeekPptpVpnProfileEditor;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class RepositoryHelper {
             final String[] vpnNames,
             final String[] vpnips) {
         GeekPptpVpnProfileEditor pptp = null;
-        GeekL2tpIpsecPskProfileEditor l2tp = null;
+        // GeekL2tpIpsecPskProfileEditor l2tp = null;
         for (int i = 0; i < vpnNames.length; i++) {
             pptp = new GeekPptpVpnProfileEditor(context);
             pptp.setName(vpnNames[i]);
@@ -39,13 +38,15 @@ public class RepositoryHelper {
             if (!containsRepository(pptp.getName(), VpnType.PPTP.getName())) {
                 pptp.onSave();
             }
-            l2tp = new GeekL2tpIpsecPskProfileEditor(context, vpnNames[i] + "(密)", vpnips[i],
-                    username,
-                    password);
-
-            if (!containsRepository(pptp.getName(), VpnType.L2TP_IPSEC_PSK.getName())) {
-                l2tp.onSave();
-            }
+            // l2tp = new GeekL2tpIpsecPskProfileEditor(context, vpnNames[i] +
+            // "(密)", vpnips[i],
+            // username,
+            // password);
+            //
+            // if (!containsRepository(pptp.getName(),
+            // VpnType.L2TP_IPSEC_PSK.getName())) {
+            // l2tp.onSave();
+            // }
         }
     }
 

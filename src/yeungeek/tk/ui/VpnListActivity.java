@@ -20,9 +20,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,9 +59,9 @@ public class VpnListActivity extends BaseActivity {
     private Button mQuitBtn;
     private Button mHideBtn;
 
-    private RadioGroup mVpnype;
-    private RadioButton mPptp;
-    private RadioButton mL2tp;
+    // private RadioGroup mVpnype;
+    // private RadioButton mPptp;
+    // private RadioButton mL2tp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,21 +90,21 @@ public class VpnListActivity extends BaseActivity {
             }
         });
 
-        mVpnype = (RadioGroup) findViewById(R.id.vpn_type);
-        mPptp = (RadioButton) findViewById(R.id.vpn_type_pptp);
-        mL2tp = (RadioButton) findViewById(R.id.vpn_type_l2tp);
-        mVpnype.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == mPptp.getId()) {
-                    actor.disconnect();
-                    buildVpnListView(VpnType.PPTP.getName());
-                } else if (checkedId == mL2tp.getId()) {
-                    actor.disconnect();
-                    buildVpnListView(VpnType.L2TP_IPSEC_PSK.getName());
-                }
-            }
-        });
+        // mVpnype = (RadioGroup) findViewById(R.id.vpn_type);
+        // mPptp = (RadioButton) findViewById(R.id.vpn_type_pptp);
+        // mL2tp = (RadioButton) findViewById(R.id.vpn_type_l2tp);
+        // mVpnype.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        // @Override
+        // public void onCheckedChanged(RadioGroup group, int checkedId) {
+        // if (checkedId == mPptp.getId()) {
+        // actor.disconnect();
+        // buildVpnListView(VpnType.PPTP.getName());
+        // } else if (checkedId == mL2tp.getId()) {
+        // actor.disconnect();
+        // buildVpnListView(VpnType.L2TP_IPSEC_PSK.getName());
+        // }
+        // }
+        // });
 
         // 默认加载pptp
         buildVpnListView(VpnType.PPTP.getName());
