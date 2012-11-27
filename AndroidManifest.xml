@@ -8,6 +8,7 @@
         android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
@@ -22,9 +23,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="android.net.vpn.SETTINGS"/>
+                <!-- <action android:name="android.net.vpn.SETTINGS"/>
                 <category android:name="com.android.settings.SHORTCUT" />
-                <category android:name="android.intent.category.DEFAULT" />
+                category android:name="android.intent.category.DEFAULT" / -->
             </intent-filter>
         </activity>
         <activity android:name=".ui.VpnListActivity" />

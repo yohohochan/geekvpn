@@ -8,6 +8,8 @@ import static yeungeek.tk.util.Constants.SEED;
 import static yeungeek.tk.util.Constants.USERNAME;
 import static yeungeek.tk.util.Constants.VPNURL;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import yeungeek.tk.util.RepositoryHelper;
 public class LoginActivity extends BaseActivity {
     private static final Logger logger = LoggerFactory.getLogger(LoginActivity.class);
 
+    private final static int IS_LOGING = 0x1000;
     private Button mLoginBtn;
     private String mUsername;
     private String mPassword;
@@ -69,7 +72,11 @@ public class LoginActivity extends BaseActivity {
 
                 if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
                     showToast(R.string.login_username_password_null);
+                } else if (!checkNetStatus()) {
+                    showToast(R.string.vpn_netstat_tip);
                 } else {
+                    // show dialog
+                    showDialog(IS_LOGING);
                     new LoginTask().execute(VPNURL.concat("?userid=").concat(mUsername)
                                 .concat("&pwd=").concat(mPassword));
                 }
@@ -111,24 +118,28 @@ public class LoginActivity extends BaseActivity {
         @Override
         protected void onPostExecute(final String result) {
             logger.debug("recevie result: {}", result);
+            removeDialog(IS_LOGING);
+
             if (!TextUtils.isEmpty(result)) {
                 String[] rs = result.split(",");
-                int code = Integer.parseInt(rs[0]);
-                String expire = rs[1];
-                if (200 == code) {
-                    PreferencesTools.saveData(USERNAME, mUsername);
-                    PreferencesTools.saveData(EXPIRE, expire);
-                    try {
-                        PreferencesTools.saveData(PASSWORD, Crypto.encrypt(SEED, mPassword));
-                    } catch (Exception e) {
-                        logger.error("save password error {}", e);
-                        e.printStackTrace();
+                if (rs.length >= 2) {
+                    int code = Integer.parseInt(rs[0]);
+                    String expire = rs[1];
+                    if (200 == code) {
+                        PreferencesTools.saveData(USERNAME, mUsername);
+                        PreferencesTools.saveData(EXPIRE, expire);
+                        try {
+                            PreferencesTools.saveData(PASSWORD, Crypto.encrypt(SEED, mPassword));
+                            PreferencesTools.saveData(IS_LOGINED, "true");
+                            initVpn();
+                            startToVpn();
+                        } catch (Exception e) {
+                            PreferencesTools.saveData(IS_LOGINED, "false");
+                            logger.error("save password error {}", e);
+                            showToast(R.string.login_failed);
+                            e.printStackTrace();
+                        }
                     }
-                    PreferencesTools.saveData(IS_LOGINED, "true");
-
-                    initVpn();
-
-                    startToVpn();
                 } else {
                     showToast(R.string.login_failed);
                 }
@@ -136,6 +147,18 @@ public class LoginActivity extends BaseActivity {
                 showToast(R.string.login_failed);
             }
         }
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case IS_LOGING:
+                return ProgressDialog.show(this, getString(R.string.tip),
+                        getString(R.string.is_loging), true, true);
+            default:
+                break;
+        }
+        return null;
     }
 
     public void startToVpn() {

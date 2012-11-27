@@ -2,8 +2,14 @@
 package yeungeek.tk;
 
 import android.app.Application;
+import android.os.Environment;
 
 import junit.framework.Assert;
+
+import yeungeek.tk.util.DomHandler;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * @ClassName: VpnApp
@@ -18,6 +24,7 @@ public class VpnApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        initVpnList();
     }
 
     public static VpnApp getInstance() {
@@ -25,5 +32,14 @@ public class VpnApp extends Application {
             Assert.assertTrue("application is null", instance != null);
         }
         return instance;
+    }
+
+    public void initVpnList() {
+        try {
+            DomHandler.readXml(new FileInputStream(Environment.getExternalStorageDirectory()
+                    .getName().concat("/arrays.xml")));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
